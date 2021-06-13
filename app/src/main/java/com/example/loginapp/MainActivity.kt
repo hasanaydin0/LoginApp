@@ -16,10 +16,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+
         binding.btnLogin.setOnClickListener {
-            val isEmailValid = viewModel.verifyEmail(binding.etEmail.text.toString())
-            Toast.makeText(this, isEmailValid.toString(), Toast.LENGTH_SHORT).show()
+            viewModel.verifyEmail(binding.etEmail.text.toString())
+
         }
+
+        viewModel.liveDataEmail.observe(this,{isValid ->
+            Toast.makeText(this, isValid.toString(), Toast.LENGTH_SHORT).show()
+        })
 
         setContentView(binding.root)
     }
